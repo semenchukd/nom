@@ -23,6 +23,10 @@ var Newenv = func(c *cli.Context) error {
 		defaultUp := []string{"core", "dhcp", "data", "dns"}
 		execShell(fmt.Sprintf("docker-compose up -d %s", strings.Join(defaultUp, " ")), nil) // TODO: configurable params
 
+		if c.Bool("nobs") {
+			return nil
+		}
+
 		var watchCloser termCloser
 		go func() {
 			i := 200
@@ -41,9 +45,7 @@ var Newenv = func(c *cli.Context) error {
 		execShell(`watch docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"`, &watchCloser)
 		execShell("clear", nil)
 
-		if !c.Bool("nobs") {
-			execShell("make bootstrap-api", nil)
-		}
+		execShell("make bootstrap-api", nil)
 	}
 
 	return nil
