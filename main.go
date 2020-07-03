@@ -2,30 +2,34 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/semenchukd/nom/commands"
 	"github.com/urfave/cli/v2"
-	"os"
 )
 
 func main() {
 
 	app := &cli.App{
+		Name:     "Nsone Macros",
+		Usage:    "Set of helpers for local dev",
+		HelpName: "nom",
 		Commands: []*cli.Command{
 			{
-				Name: "newenv",
-				Usage: "TODO: add usage",
-				Action:  commands.Newenv,
+				Name:   "newenv",
+				Usage:  "Setup new evironment",
+				Action: commands.Newenv,
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:    "up",
-						Usage:   "Containers for docker-compose up",
+						Name:  "up",
+						Usage: "Containers for docker-compose up",
 					},
 					&cli.BoolFlag{
-						Name:    "noup",
+						Name:  "noup",
 						Usage: "Skip docker-compose up",
 					},
 					&cli.BoolFlag{
-						Name:    "nobs",
+						Name:  "nobs",
 						Usage: "Skip bootstrap-api",
 					},
 				},

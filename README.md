@@ -1,15 +1,42 @@
 # NSOne Maсros
 
-## Commands
+## About
+
+```
+NAME:
+   Nsone Macros - Set of helpers for local dev
+
+USAGE:
+   nom [global options] command [command options] [arguments...]
+
+COMMANDS:
+   newenv   Setup new evironment
+   help, h  Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h  show help (default: false)
+```
+
+## newenv
 
 `nom newenv $BUILD` - clean env, pull $BUILD, run containers, wait for healthy containers and make bootstrap-api
 
-#### Flags
+```
+NAME:
+   nom newenv - Setup new evironment
 
-`--up` list of containers for docker-compose up. "core dhcp data dns" by default (TODO)
- 
-`--noup` skip docker-compose up
+USAGE:
+   nom newenv [command options] [arguments...]
 
-`--nobs` skip bootstrap-api
+OPTIONS:
+   --up value  Containers for docker-compose up
+   --noup      Skip docker-compose up (default: false)
+   --nobs      Skip bootstrap-api (default: false)
+   --help, -h  show help (default: false)
+```
+
+#### Preview
+
+![preview](assets/nom_newenv.svg "nom newenv")
 
 
