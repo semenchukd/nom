@@ -11,10 +11,13 @@ USAGE:
 
 COMMANDS:
    newenv   Setup new evironment
+   dc       Docker-compose ops
+   build    Build and restart target container
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h  show help (default: false)
+
 ```
 
 ## newenv
