@@ -34,6 +34,17 @@ func main() {
 					},
 				},
 			},
+			{
+				Name:   "dc",
+				Usage:  "Docker-compose ops",
+				Action: commands.DC,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  "c",
+						Usage: "List of containers",
+					},
+				},
+			},
 		},
 	}
 
