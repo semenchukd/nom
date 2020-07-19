@@ -11,7 +11,7 @@ USAGE:
 
 COMMANDS:
    newenv   Setup new evironment
-   dc       Docker-compose ops
+   dc       docker-compose ops
    build    Build and restart target container
    help, h  Shows a list of commands or help for one command
 
