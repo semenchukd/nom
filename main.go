@@ -45,6 +45,11 @@ func main() {
 					},
 				},
 			},
+			{
+				Name:   "build",
+				Usage:  "Build and restart target container",
+				Action: commands.Build,
+			},
 		},
 	}
 

@@ -3,6 +3,7 @@ package commands
 import (
 	"errors"
 	"fmt"
+	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -45,14 +46,43 @@ var DC = func(c *cli.Context) error {
 	if len(operation) == 0 {
 		return errors.New("operation argument required")
 	}
+	defaultContainers := []string{"core", "dhcp", "data", "dns"}
 	switch operation {
 	case "start":
-		defaultStart := []string{"core", "dhcp", "data", "dns"}
-		execShell(fmt.Sprintf("docker-compose start %s", strings.Join(defaultStart, " ")), nil)
-		watchCloser := initWatchCloser(len(defaultStart))
+		execShell(fmt.Sprintf("docker-compose start %s", strings.Join(defaultContainers, " ")), nil)
+		watchCloser := initWatchCloser(len(defaultContainers))
 		execShell(`watch docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"`, watchCloser)
 	case "stop":
-		execShell("docker-compose stop", nil)
+		execShell(fmt.Sprintf("docker-compose stop %s", strings.Join(defaultContainers, " ")), nil)
+	}
+	return nil
+}
+
+var Build = func(c *cli.Context) error {
+	target := c.Args().First()
+	if len(target) == 0 {
+		return errors.New("target argument required")
+	}
+
+	_, d := path.Split(strings.TrimRight(execAndReturn("pwd"), "/"))
+	d = strings.TrimSpace(d)
+	var cd string
+	switch d {
+	case "platform":
+		cd = "golang/"
+	case "golang":
+	default:
+		return errors.New("wrong current location")
+	}
+
+	switch target {
+	case "nexusd":
+		cmd1 := fmt.Sprintf("GOOS=linux make -C %snexusd nexusd", cd)
+		cmd := fmt.Sprintf("%s && docker cp %snexusd/build_output/nexusd platform_core_1:/usr/local/bin/ && docker-compose exec core sv restart nexusd", cmd1, cd)
+		fmt.Println(cmd)
+		execShell(cmd, nil)
+	default:
+		return errors.New("unknown target")
 	}
 	return nil
 }
