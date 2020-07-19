@@ -76,10 +76,17 @@ var Build = func(c *cli.Context) error {
 	}
 
 	switch target {
+	case "gatewayd":
+		cmd1 := fmt.Sprintf("GOOS=linux make -C %sgatewayd build", cd)
+		cmd := fmt.Sprintf("%s && docker cp %sgatewayd/build_output/gatewayd platform_core_1:/usr/local/bin/ && docker-compose exec core sv restart gatewayd", cmd1, cd)
+		execShell(cmd, nil)
 	case "nexusd":
 		cmd1 := fmt.Sprintf("GOOS=linux make -C %snexusd nexusd", cd)
 		cmd := fmt.Sprintf("%s && docker cp %snexusd/build_output/nexusd platform_core_1:/usr/local/bin/ && docker-compose exec core sv restart nexusd", cmd1, cd)
-		fmt.Println(cmd)
+		execShell(cmd, nil)
+	case "keadatad":
+		cmd1 := fmt.Sprintf("GOOS=linux make -C %skeadatad build", cd)
+		cmd := fmt.Sprintf("%s && docker cp %skeadatad/build_output/keadatad platform_dhcp_1:/usr/local/bin/ && docker-compose exec dhcp sv restart keadatad", cmd1, cd)
 		execShell(cmd, nil)
 	default:
 		return errors.New("unknown target")

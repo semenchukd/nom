@@ -47,7 +47,7 @@ func main() {
 			},
 			{
 				Name:   "build",
-				Usage:  "Build and restart target container",
+				Usage:  "Build and restart target container. Possible args: nexusd, keadatad, gatewayd",
 				Action: commands.Build,
 			},
 		},
